@@ -53,10 +53,15 @@ CREATE TABLE IF NOT EXISTS public.companies
     sector text COLLATE pg_catalog."default",
     industry text COLLATE pg_catalog."default",
     CONSTRAINT companies_pkey PRIMARY KEY (symbol),
-    CONSTRAINT companies_symbol_key UNIQUE (symbol)
+    CONSTRAINT companies_symbol_key UNIQUE (symbol),
+    CONSTRAINT symbol FOREIGN KEY (symbol)
+        REFERENCES public.stock_data (symbol) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE CASCADE
+        NOT VALID
 )
 
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.companies
-    OWNER to postgres
+    OWNER to postgres;
