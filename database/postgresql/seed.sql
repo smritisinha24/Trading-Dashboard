@@ -79,14 +79,6 @@ BEGIN
         );
     END LOOP;
 END $$;
--- Create the companies table
-CREATE TABLE IF NOT EXISTS companies (
-    id SERIAL PRIMARY KEY,
-    symbol TEXT UNIQUE,
-    name TEXT NOT NULL,
-    sector TEXT,
-    industry TEXT
-);
 
 -- Insert data into the companies table
 INSERT INTO companies (symbol, name, sector, industry) VALUES
