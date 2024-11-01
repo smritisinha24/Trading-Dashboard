@@ -1,4 +1,4 @@
-# PostGresSql Folder
+# PostgreSql Folder
 
 This folder contains the necessary files to set up and manage the PostgreSQL database for the project. 
 
