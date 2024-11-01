@@ -21,9 +21,9 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.stock_data
     OWNER to postgres;
+--create trade_info table
 CREATE TABLE IF NOT EXISTS public.trade_info
 (
-    id integer NOT NULL DEFAULT nextval('trade_info_id_seq'::regclass),
     symbol character varying(15) COLLATE pg_catalog."default" NOT NULL,
     traded_volume_lakhs numeric,
     traded_value_cr numeric,
@@ -33,12 +33,18 @@ CREATE TABLE IF NOT EXISTS public.trade_info
     percent_deliverable_traded_quantity numeric,
     applicable_margin_rate numeric,
     face_value numeric,
-    CONSTRAINT trade_info_pkey PRIMARY KEY (id),
+    CONSTRAINT trade_info_pkey PRIMARY KEY (symbol),
     CONSTRAINT fk_symbol FOREIGN KEY (symbol)
         REFERENCES public.stock_data (symbol) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE
 )
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.trade_info
+    OWNER to postgres;
+
 
 TABLESPACE pg_default;
 
