@@ -1,26 +1,12 @@
 DO $$
 DECLARE
-    stock_symbols TEXT[] := ARRAY[
-        'NTPC', 'DRREDDY', 'SUNPHARMA', 'ADANIPORTS', 'ICICIBANK', 'BAJAJ-AUTO',
-        'TATACONSUM', 'ASIANPAINT', 'COALINDIA', 'JSWSTEEL', 'BPCL', 'SBIN',
-        'GRASIM', 'APOLLOHOSP', 'CIPLA', 'BEL', 'AXISBANK', 'HINDUNILVR',
-        'INDUSINDBK', 'TECHM', 'NESTLEIND', 'TATASTEEL', 'WIPRO', 'TATAMOTORS',
-        'ITC', 'ADANIENT', 'BRITANNIA', 'TCS', 'INFY', 'TITAN', 'TRENT',
-        'SBILIFE', 'HEROMOTOCO', 'HINDALCO', 'HCLTECH', 'ONGC', 'BAJFINANCE',
-        'HDFCLIFE', 'ULTRACEMCO', 'MARUTI', 'BAJAJFINSV', 'KOTAKBANK', 
-        'HDFCBANK', 'RELIANCE', 'SHRIRAMFIN', 'M&M', 'POWERGRID', 'EICHERMOT', 
-        'LT', 'BHARTIARTL', 'DIVISLAB', 'HDFCAMC', 'HAVELLS', 'DLF', 'VEDL',
-        'PETRONET', 'MUTHOOTFIN', 'TATAPOWER', 'GODREJCP', 'TORNTPHARM', 
-        'PIDILITIND', 'BAJAJELEC', 'DMART', 'BOSCHLTD', 'NMDC', 'BIOCON', 
-        'CONCOR', 'BALKRISIND', 'ABB'
-    ];
-    i INTEGER;
+    stock_symbol TEXT;
     random_value NUMERIC;
     random_change NUMERIC;
 BEGIN
-    FOR i IN 1..array_length(stock_symbols, 1) LOOP
-        random_value := ROUND((100 + random() * 900)::NUMERIC, 2);  -- Random base value between 100 and 1000
-        random_change := ROUND((random() * 100 - 50)::NUMERIC, 2);  -- Random change between -50 and +50
+    FOR stock_symbol IN SELECT symbol FROM temp_symbols LOOP
+        random_value := ROUND((100 + random() * 900)::NUMERIC, 2);
+        random_change := ROUND((random() * 100 - 50)::NUMERIC, 2);
 
         INSERT INTO stock_data (
             SYMBOL,
@@ -35,17 +21,17 @@ BEGIN
             NM_52W_H,
             NM_52W_L
         ) VALUES (
-            stock_symbols[i],
-            random_value, -- PREV_CLOSE
-            random_value + random_change, -- IEP
-            random_change, -- CHNG
-            ROUND((random_change / random_value) * 100, 2), -- PCT_CHNG
-            random_value + random_change, -- FINAL
-            (random() * 999000 + 1000)::BIGINT, -- FINAL_QUANTITY
-            ROUND((random() * 100)::NUMERIC, 2), -- VALUE in crores
-            ROUND((10 + random() * 990)::NUMERIC, 2), -- FFM_CAP in crores
-            ROUND((500 + random() * 1500)::NUMERIC, 2), -- NM_52W_H
-            ROUND((100 + random() * 400)::NUMERIC, 2) -- NM_52W_L
+            stock_symbol,
+            random_value,
+            random_value + random_change,
+            random_change,
+            ROUND((random_change / random_value) * 100, 2),
+            random_value + random_change,
+            (random() * 999000 + 1000)::BIGINT,
+            ROUND((random() * 100)::NUMERIC, 2),
+            ROUND((10 + random() * 990)::NUMERIC, 2),
+            ROUND((500 + random() * 1500)::NUMERIC, 2),
+            ROUND((100 + random() * 400)::NUMERIC, 2)
         );
     END LOOP;
 END $$;
@@ -79,14 +65,6 @@ BEGIN
         );
     END LOOP;
 END $$;
--- Create the companies table
-CREATE TABLE IF NOT EXISTS companies (
-    id SERIAL PRIMARY KEY,
-    symbol TEXT UNIQUE,
-    name TEXT NOT NULL,
-    sector TEXT,
-    industry TEXT
-);
 
 -- Insert data into the companies table
 INSERT INTO companies (symbol, name, sector, industry) VALUES
