@@ -51,10 +51,11 @@ The database consists of the following tables:
    ```sql
    CREATE DATABASE your_database_name;
   
-2.**Connect to Your Database**: Open your terminal or PostgreSQL client and connect to your newly created database.
+2. **Connect to Your Database**: Open your terminal or PostgreSQL client and connect to your newly created database.
 
    ```bash
    psql -U your_username -d your_database_name
+
 
 3. **Run the Schema Script**: Execute the `schema.sql` script to create the necessary tables.
 
