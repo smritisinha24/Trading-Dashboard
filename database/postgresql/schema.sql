@@ -1,7 +1,7 @@
 -- Table: public.trade_info
 
 -- DROP TABLE IF EXISTS public.trade_info;
-CREATE TABLE IF NOT EXISTS public.stock_data
+CREATE TABLE IF NOT EXISTS public.stock_data 
 (
     symbol character varying(15) COLLATE pg_catalog."default" NOT NULL,
     prev_close numeric(10,2),
