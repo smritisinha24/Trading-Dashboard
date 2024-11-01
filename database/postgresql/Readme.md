@@ -1,10 +1,10 @@
-# Database Folder
+# PostGresSql Folder
 
 This folder contains the necessary files to set up and manage the PostgreSQL database for the project. 
 
 ## Overview
 
-The database is designed to store company information, including unique symbols, names, sectors, and industries. This document outlines the contents of the folder and instructions on how to use them.
+The database is designed to store trading data. This document outlines the contents of the folder and instructions on how to use them.
 
 ## Contents
 
@@ -61,5 +61,15 @@ The database consists of the following tables:
 
    ```sql
    \i path/to/schema.sql
+## Seed Data
+
+**Seed the Database**: The `seed.sql` script contains sample data to populate the tables for testing and development purposes. This can help you verify that your database is functioning correctly.
+
+### Usage
+
+To execute the `seed.sql` script, run the following command after connecting to your database:
+
+```sql
+\i path/to/seed.sql
 
 
