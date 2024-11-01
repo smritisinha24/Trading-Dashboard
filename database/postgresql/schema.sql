@@ -44,18 +44,19 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.trade_info
     OWNER to postgres;
+
+
 CREATE TABLE IF NOT EXISTS public.companies
 (
-    id integer NOT NULL DEFAULT nextval('companies_id_seq'::regclass),
-    symbol text COLLATE pg_catalog."default",
+    symbol text COLLATE pg_catalog."default" NOT NULL,
     name text COLLATE pg_catalog."default" NOT NULL,
     sector text COLLATE pg_catalog."default",
     industry text COLLATE pg_catalog."default",
-    CONSTRAINT companies_pkey PRIMARY KEY (id),
+    CONSTRAINT companies_pkey PRIMARY KEY (symbol),
     CONSTRAINT companies_symbol_key UNIQUE (symbol)
 )
 
 TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.companies
-    OWNER to postgres;
+    OWNER to postgres
