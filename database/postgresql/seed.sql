@@ -4,7 +4,7 @@ DECLARE
     random_value NUMERIC;
     random_change NUMERIC;
 BEGIN
-    FOR stock_symbol IN SELECT symbol FROM temp_symbols LOOP
+    FOR stock_symbol IN SELECT symbols FROM temp_symbols LOOP
         random_value := ROUND((100 + random() * 900)::NUMERIC, 2);
         random_change := ROUND((random() * 100 - 50)::NUMERIC, 2);
 
