@@ -1,6 +1,4 @@
--- Table: public.trade_info
-
--- DROP TABLE IF EXISTS public.trade_info;
+-- Table: public.tock_data
 CREATE TABLE IF NOT EXISTS public.stock_data 
 (
     symbol character varying(15) COLLATE pg_catalog."default" NOT NULL,
@@ -21,6 +19,8 @@ TABLESPACE pg_default;
 
 ALTER TABLE IF EXISTS public.stock_data
     OWNER to postgres;
+
+
 --create trade_info table
 CREATE TABLE IF NOT EXISTS public.trade_info
 (
@@ -46,28 +46,49 @@ ALTER TABLE IF EXISTS public.trade_info
     OWNER to postgres;
 
 
-TABLESPACE pg_default;
+-- Table: public.price_info
 
-ALTER TABLE IF EXISTS public.trade_info
-    OWNER to postgres;
-
-
-CREATE TABLE IF NOT EXISTS public.companies
+CREATE TABLE IF NOT EXISTS public.price_info
 (
-    symbol text COLLATE pg_catalog."default" NOT NULL,
-    name text COLLATE pg_catalog."default" NOT NULL,
-    sector text COLLATE pg_catalog."default",
-    industry text COLLATE pg_catalog."default",
-    CONSTRAINT companies_pkey PRIMARY KEY (symbol),
-    CONSTRAINT companies_symbol_key UNIQUE (symbol),
-    CONSTRAINT symbol FOREIGN KEY (symbol)
+    symbol character varying(15) COLLATE pg_catalog."default" NOT NULL,
+    week_52_high numeric(10,2),
+    week_52_low numeric(10,2),
+    upper_band numeric(10,2),
+    lower_band numeric(10,2),
+    price_band character varying(20) COLLATE pg_catalog."default",
+    daily_volatility numeric(5,2),
+    annualised_volatility numeric(5,2),
+    tick_size numeric(5,2),
+    CONSTRAINT price_info_pkey PRIMARY KEY (symbol),
+    CONSTRAINT symbol_fk FOREIGN KEY (symbol)
         REFERENCES public.stock_data (symbol) MATCH SIMPLE
         ON UPDATE NO ACTION
-        ON DELETE CASCADE
+        ON DELETE NO ACTION
         NOT VALID
 )
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.companies
+ALTER TABLE IF EXISTS public.price_info
     OWNER to postgres;
+
+-- CREATE TABLE IF NOT EXISTS public.companies
+-- (
+--     symbol text COLLATE pg_catalog."default" NOT NULL,
+--     name text COLLATE pg_catalog."default" NOT NULL,
+--     sector text COLLATE pg_catalog."default",
+--     industry text COLLATE pg_catalog."default",
+--     CONSTRAINT companies_pkey PRIMARY KEY (symbol),
+--     CONSTRAINT companies_symbol_key UNIQUE (symbol),
+--     CONSTRAINT symbol FOREIGN KEY (symbol)
+--         REFERENCES public.stock_data (symbol) MATCH SIMPLE
+--         ON UPDATE NO ACTION
+--         ON DELETE CASCADE
+--         NOT VALID
+-- );
+
+
+--TABLESPACE pg_default;
+
+--ALTER TABLE IF EXISTS public.companies
+    --OWNER to postgres;
