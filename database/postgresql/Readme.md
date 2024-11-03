@@ -28,11 +28,17 @@ The database consists of the following tables:
 - **nm_52w_h**: Normalized 52-week high price (numeric(10,2)).
 - **nm_52w_l**: Normalized 52-week low price (numeric(10,2)).
 
-### 2. `companies`
-- **symbol**: Unique identifier for each company (text, PRIMARY KEY, NOT NULL).
-- **name**: Name of the company (text, NOT NULL).
-- **sector**: Sector in which the company operates (text).
-- **industry**: Industry category of the company (text).
+### `price_info`
+- **symbol**: Unique identifier for each company (`character varying(15)`, `NOT NULL`).
+- **week_52_high**: 52-week high price of the stock (`numeric(10,2)`).
+- **week_52_low**: 52-week low price of the stock (`numeric(10,2)`).
+- **upper_band**: Upper price band (`numeric(10,2)`).
+- **lower_band**: Lower price band (`numeric(10,2)`).
+- **price_band**: Price band description (`character varying(20)`).
+- **daily_volatility**: Daily price volatility (`numeric(5,2)`).
+- **annualised_volatility**: Annualized price volatility (`numeric(5,2)`).
+- **tick_size**: Minimum price movement (`numeric(5,2)`).
+
 ### 3. `trade_info`
 - **id**: Unique identifier for each trade record (integer, PRIMARY KEY, NOT NULL).
 - **symbol**: Unique identifier for each stock, referencing `stock_data.symbol` (character varying(15), NOT NULL).
