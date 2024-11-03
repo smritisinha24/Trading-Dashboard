@@ -1,7 +1,7 @@
-package com.CME.tradingdashboard.service;
+package com.CME.backend.service;
 
-import com.CME.tradingdashboard.model.*;
-import com.CME.tradingdashboard.repository.*;
+import com.CME.backend.model.*;
+import com.CME.backend.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

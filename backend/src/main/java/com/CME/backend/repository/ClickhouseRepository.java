@@ -1,9 +1,9 @@
-package com.CME.tradingdashboard.repository;
+package com.CME.backend.repository;
 
-import com.CME.tradingdashboard.model.Company;
-import com.CME.tradingdashboard.model.PriceInfo;
-import com.CME.tradingdashboard.model.StockData;
-import com.CME.tradingdashboard.model.TradeInfo;
+import com.CME.backend.model.Company;
+import com.CME.backend.model.PriceInfo;
+import com.CME.backend.model.StockData;
+import com.CME.backend.model.TradeInfo;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;

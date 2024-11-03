@@ -1,6 +1,6 @@
-package com.CME.tradingdashboard.repository;
+package com.CME.backend.repository;
 
-import com.CME.tradingdashboard.model.StockData;
+import com.CME.backend.model.StockData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.Optional;
