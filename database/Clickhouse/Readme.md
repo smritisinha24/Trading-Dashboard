@@ -32,8 +32,9 @@ WITH (FORMAT CSV, HEADER);
 COPY (SELECT * FROM trade_info) 
 TO '/path/to/your/exported_trade_info.csv' 
 WITH (FORMAT CSV, HEADER);
+```
 
-## 2. Start the ClickHouse Server
+### 2. Start the ClickHouse Server
 
 Start a ClickHouse server in a Docker container with the following command:
 
@@ -48,6 +49,7 @@ Copy the CSV files from your local machine into the container for data loading:
 docker cp ./stock_data.csv some-clickhouse-server:/tmp/stock_data.csv
 docker cp ./trade_info.csv some-clickhouse-server:/tmp/trade_info.csv
 docker cp ./price_info.csv some-clickhouse-server:/tmp/price_info.csv
+```
 
 ### 4. Access the ClickHouse Client
 
@@ -55,6 +57,7 @@ Once the container is running, connect to it using the ClickHouse client:
 
 ```bash
 docker exec -it some-clickhouse-server clickhouse-client
+```
 
 ### 5. Apply the Schema
 
@@ -63,6 +66,7 @@ Use the `schema.sql` file to define the schema within ClickHouse. Copy `schema.s
 ```bash
 docker cp ./schema.sql some-clickhouse-server:/tmp/schema.sql
 docker exec -it some-clickhouse-server clickhouse-client --query="SOURCE /tmp/schema.sql"
+```
 
 ### 6. Seed the Database
 
@@ -71,4 +75,5 @@ To populate the database with postgreSQL tables data from `seed.sql`, copy `seed
 ```bash
 docker cp ./seed.sql some-clickhouse-server:/tmp/seed.sql
 docker exec -it some-clickhouse-server clickhouse-client --query="SOURCE /tmp/seed.sql"
+```
 
