@@ -40,6 +40,7 @@ Start a ClickHouse server in a Docker container with the following command:
 
 ```bash
 docker run -d --name some-clickhouse-server --ulimit nofile=262144:262144 clickhouse/clickhouse-server
+```
 
 ### 3. Copy CSV Files into the Container
 
