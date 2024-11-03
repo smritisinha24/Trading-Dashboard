@@ -1,10 +1,10 @@
-package com.CME.tradingdashboard;
+package com.CME.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class TradingdashboardApplicationTests {
+class backendApplicationTests {
 
 	@Test
 	void contextLoads() {

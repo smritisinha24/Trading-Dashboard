@@ -1,6 +1,4 @@
-package com.CME.tradingdashboard.util;
-
-import java.util.concurrent.atomic.AtomicInteger;
+package com.CME.backend.util;
 
 public class PerformanceMetrics {
     private long startTime;
@@ -9,7 +7,7 @@ public class PerformanceMetrics {
 
     public void start() {
         this.startTime = System.currentTimeMillis();
-        queryCount++; // Increment query count when a query starts
+        queryCount = 0; // Reset count on start
     }
 
     public void end() {
@@ -22,7 +20,11 @@ public class PerformanceMetrics {
 
     public double getQueriesPerSecond() {
         long elapsedTimeInSeconds = (endTime - startTime) / 1000;
-        return elapsedTimeInSeconds > 0 ? queryCount : 0;
+        return (elapsedTimeInSeconds > 0) ? (double) queryCount / elapsedTimeInSeconds : queryCount; // Count all queries if elapsed time is 0
+    }
+
+    public void incrementQueryCount() {
+        queryCount++; // Increment query count
     }
 
     public void resetMetrics() {
@@ -30,6 +32,7 @@ public class PerformanceMetrics {
     }
 
     public int getThroughput() {
-        return 0;
+        // Example throughput calculation (number of queries over a time period, could implement more)
+        return queryCount;
     }
 }

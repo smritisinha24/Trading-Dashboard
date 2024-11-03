@@ -1,4 +1,4 @@
-package com.CME.tradingdashboard.config;
+package com.CME.backend.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;

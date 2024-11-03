@@ -1,8 +1,8 @@
-package com.CME.tradingdashboard.controller;
+package com.CME.backend.controller;
 
-import com.CME.tradingdashboard.model.*;
-import com.CME.tradingdashboard.service.TradingService;
-import com.CME.tradingdashboard.util.PerformanceMetrics;
+import com.CME.backend.model.*;
+import com.CME.backend.service.TradingService;
+import com.CME.backend.util.PerformanceMetrics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +24,7 @@ public class TradingController {
     public List<StockData> getAllStockData(@RequestParam(defaultValue = "postgres") String dbsource) {
         performanceMetrics.start();
         List<StockData> stockData = tradingService.getAllStockData(dbsource);
+        performanceMetrics.incrementQueryCount(); // Increment for this query
         performanceMetrics.end();
         logPerformanceMetrics();
         return stockData;
@@ -35,6 +36,7 @@ public class TradingController {
                                   @RequestParam(defaultValue = "postgres") String dbsource) {
         performanceMetrics.start();
         StockData stockData = tradingService.getStockDataBySymbol(symbol, dbsource);
+        performanceMetrics.incrementQueryCount(); // Increment for this query
         performanceMetrics.end();
         logPerformanceMetrics();
         return stockData;
@@ -46,6 +48,7 @@ public class TradingController {
                                         @RequestParam(defaultValue = "postgres") String dbsource) {
         performanceMetrics.start();
         List<TradeInfo> tradeInfo = tradingService.getTradeInfoBySymbol(symbol, dbsource);
+        performanceMetrics.incrementQueryCount(); // Increment for this query
         performanceMetrics.end();
         logPerformanceMetrics();
         return tradeInfo;
@@ -57,6 +60,7 @@ public class TradingController {
                                         @RequestParam(defaultValue = "postgres") String dbsource) {
         performanceMetrics.start();
         List<Company> companyInfo = tradingService.getCompanyInfo(symbol, dbsource);
+        performanceMetrics.incrementQueryCount(); // Increment for this query
         performanceMetrics.end();
         logPerformanceMetrics();
         return companyInfo;
@@ -68,6 +72,7 @@ public class TradingController {
                                                   @RequestParam(defaultValue = "postgres") String dbsource) {
         performanceMetrics.start();
         PriceInfo priceInfo = tradingService.getPriceInfoBySymbol(symbol, dbsource);
+        performanceMetrics.incrementQueryCount(); // Increment for this query
         performanceMetrics.end();
         logPerformanceMetrics();
         return priceInfo != null ? ResponseEntity.ok(priceInfo) : ResponseEntity.ok().build();

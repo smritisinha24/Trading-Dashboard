@@ -1,4 +1,4 @@
-package com.CME.tradingdashboard.model;
+package com.CME.backend.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
