@@ -25,6 +25,7 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -61,11 +62,13 @@ module.exports = {
           foreground: "hsl(var(--card-foreground))",
         },
       },
+
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -91,16 +94,17 @@ module.exports = {
           },
         },
       },
+
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         spotlight: "spotlight 2s ease .75s 1 forwards",
-        scroll:
-          "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
+        scroll: "scroll var(--animation-duration, 40s) var(--animation-direction, forwards) linear infinite",
       },
     },
   },
-  plugins: [require("tailwindcss-animate"),addVariablesForColors,addSvgPatterns],
+  
+  plugins: [require("tailwindcss-animate"),addVariablesForColors, addSvgPatterns],
 };
 
 function addVariablesForColors({ addBase, theme }) {
