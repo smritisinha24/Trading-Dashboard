@@ -15,7 +15,7 @@ function Footer() {
           <ul>
             <li>
               <a
-                href="#"
+                href="/u/home"
                 className="hover:text-white transition-colors duration-300"
               >
                 Home
@@ -41,32 +41,26 @@ function Footer() {
         </div>
         <div>
           <h2 className="text-white text-lg font-semibold mb-4">Follow Us</h2>
-          <ul>
-            <li>
-              <a
-                href="#"
-                className="hover:text-white transition-colors duration-300"
-              >
-                Facebook
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="hover:text-white transition-colors duration-300"
-              >
-                Instagram
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="hover:text-white transition-colors duration-300"
-              >
-                Twitter
-              </a>
-            </li>
-          </ul>
+          <div className="flex space-x-4">
+            <a
+              href="#"
+              className="hover:text-white transition-colors duration-300"
+            >
+              Facebook
+            </a>
+            <a
+              href="#"
+              className="hover:text-white transition-colors duration-300"
+            >
+              Twitter
+            </a>
+            <a
+              href="#"
+              className="hover:text-white transition-colors duration-300"
+            >
+              Instagram
+            </a>
+          </div>
         </div>
         <div>
           <h2 className="text-white text-lg font-semibold mb-4">Contact Us</h2>

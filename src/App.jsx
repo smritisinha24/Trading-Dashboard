@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from './pages/Layout';
 import HomePage from "./pages/HomePage";
 import Dashboard from "./pages/Dashboard";
+import Search from "./pages/Search";
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
         <Route path="/u" element={<Layout />}>
           <Route path="home" element={<HomePage />} />
           <Route path="dashboard" element={<Dashboard />} />
+          <Route path="search" element={<Search />} />
         </Route>
         <Route path="/" element={<Navigate to="/u/home" />} />
       </Routes>
