@@ -27,7 +27,7 @@ function HeroSection() {
     <div
     className="h-[40rem] w-full rounded-md bg-neutral-950 relative flex flex-col items-center justify-center antialiased"
     >
-          <div className="p-4 relative z-10 w-full text-center" >
+        <div className="p-4 relative z-10 w-full text-center" >
             
             <div className="flex flex-col items-center justify-center">
                 <TypewriterEffectSmooth words={words} />
@@ -46,8 +46,8 @@ function HeroSection() {
                     </Button>
                 </Link>
             </div>
-          </div>
-         <BackgroundBeams />
+        </div>
+        <BackgroundBeams />
         
         </div>
   )
