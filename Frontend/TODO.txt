@@ -1,0 +1,22 @@
+TODO: 
+1. Backend Integration Remaining work.
+        (I) All Data Fetching (From Postgres & From ClickHouse)
+        (II) Fetching Search Result & Display
+
+
+TODO: 
+2. Show Graph on Data Table (3 Graphs To be shown) (UI Part)
+        (I) Prev Close vs Final Value
+        (II) WEEK_52_HIGH vs WEEK_52_LOW
+        (III) DAY HIGH vs DAY LOW vs FINAL Price
+
+TODO:
+3. In search Functionality, if user does not enter any symbol & press the search button, it should show No Result Found & A toast message should be there saying "Symbol Cannot be Empty"
+
+
+TODO: (Optional)
+4. After the cards of search results are displayed, There should be a button to clear the search results, which will basically reset the data in the state & will also reset the keyword to empty ✅
+
+
+TODO: 
+5. Implement a "NOT FOUND" page for all the routes....✅

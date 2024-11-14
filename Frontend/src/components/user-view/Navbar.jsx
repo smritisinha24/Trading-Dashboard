@@ -19,11 +19,6 @@ function Navbar({ className }) {
           
           </MenuItem>
         </Link>
-        <Link to="/u/search">
-          <MenuItem setActive={setActive} active={active} item="Search">
-          
-          </MenuItem>
-        </Link>
       </Menu>
     </div>
   );

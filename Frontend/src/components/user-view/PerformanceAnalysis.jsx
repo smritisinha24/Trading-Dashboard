@@ -29,19 +29,9 @@ const tabs = [
       title: "Read Speed",
       value: "read-speed",
       content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-gray-800 to-zinc-950">
-          <p>Read Speed</p>
-          <DummyContent />
-        </div>
-      ),
-    },
-    {
-      title: "Write Speed",
-      value: "write-speed",
-      content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-950">
-          <p>Write Speed</p>
-          <DummyContent />
+        <div className="w-full overflow-auto relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-gray-800 to-zinc-800">
+          <p className="mb-4">Read Speed</p>
+          <ReadSpeed />
         </div>
       ),
     },
@@ -49,40 +39,20 @@ const tabs = [
       title: "Throughput",
       value: "throughput",
       content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
+        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-gray-800 to-zinc-800">
           <p>Throughput</p>
-          <DummyContent />
-        </div>
-      ),
-    },
-    {
-      title: "Latency",
-      value: "latency",
-      content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>Latency</p>
-          <DummyContent />
-        </div>
-      ),
-    },
-    {
-      title: "Query/Second",
-      value: "query-per-second",
-      content: (
-        <div className="w-full overflow-hidden relative h-full rounded-2xl p-10 text-xl md:text-4xl font-bold text-white bg-gradient-to-br from-purple-700 to-violet-900">
-          <p>Query/Second</p>
           <DummyContent />
         </div>
       ),
     },
 ];
 
-function PerformanceAnalysis() {
+const PerformanceAnalysis = React.forwardRef((props, ref) => {
   return (
     <>
       <Separator className="bg-zinc-900"/>
 
-      <div className="py-4 flex flex-col h-[900px]">
+      <div ref={ref} className="py-4 flex flex-col h-[900px]">
             <div>
                 <div className="text-center">
                     <p className="my-3 text-3xl leading-8 font-extrabold tracking-tight text-teal-500 sm:text-4xl capitalize mb-3">
@@ -99,6 +69,6 @@ function PerformanceAnalysis() {
       <Separator className="bg-zinc-950"/>
     </>
   );
-}
+});
 
 export default PerformanceAnalysis;
