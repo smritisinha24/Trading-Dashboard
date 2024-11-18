@@ -4,9 +4,13 @@ import axios from "axios"
 const initialState = {
     isLoading: false,
     searchStockData: null,
-    searchTradeInfo: null,
-    searchPriceInfo: null,
-    searchCombined: null
+    searchStockPerformance: null,
+    searchTradeInfo: [],
+    searchTradePerformance: null,
+    searchInstrument: null,
+    searchInstrumentPerformance: null,
+    searchCombined: [],
+    searchCombinedPerformance: null
 }
 
 // For PostgreSQL
@@ -14,7 +18,7 @@ const initialState = {
 export const searchStockDataPostgreSql = createAsyncThunk('/search/searchStockDataPostgreSql', 
     async (symbol, { rejectWithValue }) => {
       try {
-        const result = await axios.get(`http://localhost:8080/stocks/${symbol}`);
+        const result = await axios.get(`https://trading-dashboard-backend.onrender.com/stocks/${symbol}?dbsource=postgres`);
         return result?.data
       } catch (error) {
         if (error.response && error.response.data) {
@@ -29,7 +33,7 @@ export const searchStockDataPostgreSql = createAsyncThunk('/search/searchStockDa
 export const searchTradeInfoPostgreSql = createAsyncThunk('/search/searchTradeInfoPostgreSql', 
     async (symbol, { rejectWithValue }) => {
       try {
-        const result = await axios.get(`http://localhost:8080/trades/${symbol}`);
+        const result = await axios.get(`https://trading-dashboard-backend.onrender.com/trades/${symbol}?dbsource=postgres`);
         return result?.data
       } catch (error) {
         if (error.response && error.response.data) {
@@ -41,10 +45,10 @@ export const searchTradeInfoPostgreSql = createAsyncThunk('/search/searchTradeIn
     }
 )
 
-export const searchPriceInfoPostgreSql = createAsyncThunk('/search/searchPriceInfoPostgreSql', 
+export const searchInstrumentPostgreSql = createAsyncThunk('/search/searchInstrumentPostgreSql', 
     async (symbol, { rejectWithValue }) => {
       try {
-        const result = await axios.get(`http://localhost:8080/prices/${symbol}`);
+        const result = await axios.get(`https://trading-dashboard-backend.onrender.com/instruments/${symbol}?dbsource=postgres`);
         return result?.data
       } catch (error) {
         if (error.response && error.response.data) {
@@ -59,7 +63,7 @@ export const searchPriceInfoPostgreSql = createAsyncThunk('/search/searchPriceIn
 export const searchCombinedPostgreSql = createAsyncThunk('/search/searchCombinedPostgreSql', 
     async (symbol, { rejectWithValue }) => {
       try {
-        const result = await axios.get(`http://localhost:8080/combined/${symbol}`);
+        const result = await axios.get(`https://trading-dashboard-backend.onrender.com/combined/${symbol}?dbsource=postgres`);
         return result?.data
       } catch (error) {
         if (error.response && error.response.data) {
@@ -76,7 +80,7 @@ export const searchCombinedPostgreSql = createAsyncThunk('/search/searchCombined
 export const searchStockDataClickHouse = createAsyncThunk('/search/searchStockDataClickHouse', 
     async (symbol, { rejectWithValue }) => {
       try {
-        const result = await axios.get(`http://localhost:8080/stocks/${symbol}?dbsource=clickhouse`);
+        const result = await axios.get(`https://trading-dashboard-backend.onrender.com/stocks/${symbol}?dbsource=clickhouse`);
         return result?.data
       } catch (error) {
         if (error.response && error.response.data) {
@@ -91,7 +95,7 @@ export const searchStockDataClickHouse = createAsyncThunk('/search/searchStockDa
 export const searchTradeInfoClickHouse = createAsyncThunk('/search/searchTradeInfoClickHouse', 
     async (symbol, { rejectWithValue }) => {
       try {
-        const result = await axios.get(`http://localhost:8080/trades/${symbol}?dbsource=clickhouse`);
+        const result = await axios.get(`https://trading-dashboard-backend.onrender.com/trades/${symbol}?dbsource=clickhouse`);
         return result?.data
       } catch (error) {
         if (error.response && error.response.data) {
@@ -103,10 +107,10 @@ export const searchTradeInfoClickHouse = createAsyncThunk('/search/searchTradeIn
     }
 )
 
-export const searchPriceInfoClickHouse = createAsyncThunk('/search/searchPriceInfoClickHouse', 
+export const searchInstrumentClickHouse = createAsyncThunk('/search/searchInstrumentClickHouse', 
     async (symbol, { rejectWithValue }) => {
       try {
-        const result = await axios.get(`http://localhost:8080/prices/${symbol}?dbsource=clickhouse`);
+        const result = await axios.get(`https://trading-dashboard-backend.onrender.com/instruments/${symbol}?dbsource=clickhouse`);
         return result?.data
       } catch (error) {
         if (error.response && error.response.data) {
@@ -121,7 +125,7 @@ export const searchPriceInfoClickHouse = createAsyncThunk('/search/searchPriceIn
 export const searchCombinedClickHouse = createAsyncThunk('/search/searchCombinedClickHouse', 
     async (symbol, { rejectWithValue }) => {
       try {
-        const result = await axios.get(`http://localhost:8080/combined/${symbol}?dbsource=clickhouse`);
+        const result = await axios.get(`https://trading-dashboard-backend.onrender.com/combined/${symbol}?dbsource=clickhouse`);
         return result?.data
       } catch (error) {
         if (error.response && error.response.data) {
@@ -138,10 +142,14 @@ const searchSlice = createSlice({
     initialState,
     reducers: {
         resetSearchResults: (state) => {
-            state.searchStockData = null;
-            state.searchTradeInfo = null;
-            state.searchPriceInfo = null;
-            state.searchCombined = null;
+            state.searchStockData = null,
+            state.searchStockPerformance = null,
+            state.searchTradeInfo = [],
+            state.searchTradePerformance = null,
+            state.searchInstrument = null,
+            state.searchInstrumentPerformance = null,
+            state.searchCombined = [],
+            state.searchCombinedPerformance = null
         }
     },
     extraReducers: (builder) => {
@@ -152,10 +160,12 @@ const searchSlice = createSlice({
         .addCase(searchStockDataPostgreSql.fulfilled, (state, action) => {
             state.isLoading = false
             state.searchStockData = action.payload.data
+            state.searchStockPerformance = action.payload.performanceMetrics
         })
         .addCase(searchStockDataPostgreSql.rejected, (state) => {
             state.isLoading = false
             state.searchStockData = null
+            state.searchStockPerformance = null
         })
         .addCase(searchTradeInfoPostgreSql.pending, (state) => {
             state.isLoading = true
@@ -163,21 +173,25 @@ const searchSlice = createSlice({
         .addCase(searchTradeInfoPostgreSql.fulfilled, (state, action) => {
             state.isLoading = false
             state.searchTradeInfo = action.payload.data
+            state.searchTradePerformance = action.payload.performanceMetrics
         })
         .addCase(searchTradeInfoPostgreSql.rejected, (state) => {
             state.isLoading = false
-            state.searchTradeInfo = null
+            state.searchTradeInfo = []
+            state.searchTradePerformance = null
         })
-        .addCase(searchPriceInfoPostgreSql.pending, (state) => {
+        .addCase(searchInstrumentPostgreSql.pending, (state) => {
             state.isLoading = true
         })
-        .addCase(searchPriceInfoPostgreSql.fulfilled, (state, action) => {
+        .addCase(searchInstrumentPostgreSql.fulfilled, (state, action) => {
             state.isLoading = false
-            state.searchPriceInfo = action.payload.data
+            state.searchInstrument = action.payload.data
+            state.searchInstrumentPerformance = action.payload.performanceMetrics
         })
-        .addCase(searchPriceInfoPostgreSql.rejected, (state) => {
+        .addCase(searchInstrumentPostgreSql.rejected, (state) => {
             state.isLoading = false
-            state.searchPriceInfo = null
+            state.searchInstrument = null
+            state.searchInstrumentPerformance = null
         })
         .addCase(searchCombinedPostgreSql.pending, (state) => {
             state.isLoading = true
@@ -185,10 +199,12 @@ const searchSlice = createSlice({
         .addCase(searchCombinedPostgreSql.fulfilled, (state, action) => {
             state.isLoading = false
             state.searchCombined = action.payload.data
+            state.searchCombinedPerformance = action.payload.performanceMetrics
         })
         .addCase(searchCombinedPostgreSql.rejected, (state) => {
             state.isLoading = false
-            state.searchCombined = null
+            state.searchCombined = []
+            state.searchCombinedPerformance = null
         })
 
         .addCase(searchStockDataClickHouse.pending, (state) => {
@@ -197,10 +213,12 @@ const searchSlice = createSlice({
         .addCase(searchStockDataClickHouse.fulfilled, (state, action) => {
             state.isLoading = false
             state.searchStockData = action.payload.data
+            state.searchStockPerformance = action.payload.performanceMetrics
         })
         .addCase(searchStockDataClickHouse.rejected, (state) => {
             state.isLoading = false
             state.searchStockData = null
+            state.searchStockPerformance = null
         })
         .addCase(searchTradeInfoClickHouse.pending, (state) => {
             state.isLoading = true
@@ -208,21 +226,25 @@ const searchSlice = createSlice({
         .addCase(searchTradeInfoClickHouse.fulfilled, (state, action) => {
             state.isLoading = false
             state.searchTradeInfo = action.payload.data
+            state.searchTradePerformance = action.payload.performanceMetrics
         })
         .addCase(searchTradeInfoClickHouse.rejected, (state) => {
             state.isLoading = false
-            state.searchTradeInfo = null
+            state.searchTradeInfo = []
+            state.searchTradePerformance = {}
         })
-        .addCase(searchPriceInfoClickHouse.pending, (state) => {
+        .addCase(searchInstrumentClickHouse.pending, (state) => {
             state.isLoading = true
         })
-        .addCase(searchPriceInfoClickHouse.fulfilled, (state, action) => {
+        .addCase(searchInstrumentClickHouse.fulfilled, (state, action) => {
             state.isLoading = false
-            state.searchPriceInfo = action.payload.data
+            state.searchInstrument = action.payload.data
+            state.searchInstrumentPerformance = action.payload.performanceMetrics
         })
-        .addCase(searchPriceInfoClickHouse.rejected, (state) => {
+        .addCase(searchInstrumentClickHouse.rejected, (state) => {
             state.isLoading = false
-            state.searchPriceInfo = null
+            state.searchInstrument = null
+            state.searchInstrumentPerformance = null
         })
         .addCase(searchCombinedClickHouse.pending, (state) => {
             state.isLoading = true
@@ -230,10 +252,12 @@ const searchSlice = createSlice({
         .addCase(searchCombinedClickHouse.fulfilled, (state, action) => {
             state.isLoading = false
             state.searchCombined = action.payload.data
+            state.searchCombinedPerformance = action.payload.performanceMetrics
         })
         .addCase(searchCombinedClickHouse.rejected, (state) => {
             state.isLoading = false
-            state.searchCombined = null
+            state.searchCombined = []
+            state.searchCombinedPerformance = null
         })
     }
 })

@@ -3,6 +3,7 @@ import { Boxes } from "../ui/background-boxes";
 import { cn } from "../../lib/utils";
 import { HoverBorderGradient } from "../ui/hover-border-gradient";
 import { Button } from "../ui/button";
+import { ScanEye, Search } from "lucide-react";
 
 function DasboardHero({onButtonOneClick, onButtonTwoClick}) {
   return (
@@ -23,6 +24,7 @@ function DasboardHero({onButtonOneClick, onButtonTwoClick}) {
               onClick={onButtonOneClick}
             >
               View Data
+              <ScanEye />
             </Button>
           </HoverBorderGradient>
           
@@ -32,7 +34,8 @@ function DasboardHero({onButtonOneClick, onButtonTwoClick}) {
               className="bg-white dark:bg-black text-black dark:text-white border-neutral-200 dark:border-slate-800 font-bold"
               onClick={onButtonTwoClick}
             >
-              View Analysis
+              Search By Symbol
+              <Search />
             </Button>
           </HoverBorderGradient>
       </div>
