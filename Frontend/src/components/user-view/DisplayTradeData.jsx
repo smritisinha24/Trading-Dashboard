@@ -51,7 +51,10 @@ const DisplayTradeData = React.forwardRef((props, ref) => {
 
   const searchData = useSelector((state) => state.dataFetch.dataList);
   const searchPerformanceMetrics = useSelector((state) => state.dataFetch.performanceMetrics);
+<<<<<<< HEAD
   const loading = useSelector((state) => state.dataFetch.isLoading);
+=======
+>>>>>>> 10340d478594e981ec67a6e312b6616ec999f337
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
@@ -125,6 +128,7 @@ const DisplayTradeData = React.forwardRef((props, ref) => {
           </div>
         </div>
 
+<<<<<<< HEAD
         {
           loading 
           ? 
@@ -146,6 +150,9 @@ const DisplayTradeData = React.forwardRef((props, ref) => {
 
         {database !== 'None' && searchData && searchData.length > 0 
           ? 
+=======
+        {database === 'None' ? null :
+>>>>>>> 10340d478594e981ec67a6e312b6616ec999f337
           <div className='overflow-x-auto mt-2'>
               <Table>
                 <TableHeader>
@@ -207,12 +214,15 @@ const DisplayTradeData = React.forwardRef((props, ref) => {
                 onPageChange={page => setCurrentPage(page)}
               />
         </div>
+<<<<<<< HEAD
         :
           <div className='text-red-400 font-semibold flex items-center justify-center mt-5'>
               {
                 loading ? "Loading Data ..." : "No Data To Display"
               }
           </div>
+=======
+>>>>>>> 10340d478594e981ec67a6e312b6616ec999f337
         }
       </div>
     </>

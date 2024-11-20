@@ -63,7 +63,11 @@ export const searchInstrumentPostgreSql = createAsyncThunk('/search/searchInstru
 export const searchCombinedPostgreSql = createAsyncThunk('/search/searchCombinedPostgreSql', 
     async ({getStartDate, getEndDate}, { rejectWithValue }) => {
       try {
+<<<<<<< HEAD
         const result = await axios.get(`https://trading-dashboard-backend.onrender.com/aggregate?dbsource=postgres&startDate=${getStartDate}&endDate=${getEndDate}`);
+=======
+        const result = await axios.get(`https://trading-dashboard-backend.onrender.com/combined/${symbol}?dbsource=postgres`);
+>>>>>>> 10340d478594e981ec67a6e312b6616ec999f337
         return result?.data
       } catch (error) {
         if (error.response && error.response.data) {
@@ -125,7 +129,11 @@ export const searchInstrumentClickHouse = createAsyncThunk('/search/searchInstru
 export const searchCombinedClickHouse = createAsyncThunk('/search/searchCombinedClickHouse', 
     async ({getStartDate, getEndDate}, { rejectWithValue }) => {
       try {
+<<<<<<< HEAD
         const result = await axios.get(`https://trading-dashboard-backend.onrender.com/aggregate?dbsource=clickhouse&startDate=${getStartDate}&endDate=${getEndDate}`);
+=======
+        const result = await axios.get(`https://trading-dashboard-backend.onrender.com/combined/${symbol}?dbsource=clickhouse`);
+>>>>>>> 10340d478594e981ec67a6e312b6616ec999f337
         return result?.data
       } catch (error) {
         if (error.response && error.response.data) {
