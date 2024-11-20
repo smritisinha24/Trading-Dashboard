@@ -1,39 +1,4 @@
-To fetch all data from stock_data table using postgre:
-http://localhost:8080/stocks   ✅
+https://trading-dashboard-backend.onrender.com/aggregate?dbsource=clickhouse&startDate=2024-01-10&endDate=2024-11-10
 
-To fetch all data from stock_data table using clickhouse:
-http://localhost:8080/stocks?dbsource=clickhouse    ✅
+https://trading-dashboard-backend.onrender.com/aggregate?dbsource=postgres&startDate=2024-01-10&endDate=2024-11-10
 
---------------------------------------------------------------------------------------------------------
-
-To fetch specific stock data from stock_data table using symbol from postgre:
-http://localhost:8080/stocks/{symbol}  ✅
-
-To fetch data from trade_info table using specific symbol using postgre:
-http://localhost:8080/trades/{symbol}  ✅
-
-To fetch data from price_info table using specific symbol using postgre:
-http://localhost:8080/prices{symbol} ✅
-
-----------------------------------------------------------------------------------------------------------
-
-To fetch specific stock data from stock_data table using symbol from clickhouse:
-http://localhost:8080/stocks/{symbol}?dbsource=clickhouse ✅
-
-
-To fetch data from trade_info table using specific symbol using clickhouse:
-http://localhost:8080/trades/{symbol}?dbsource=clickhouse ✅
-
-
-To fetch data from price_info table using specific symbol using clickhouse:
-http://localhost:8080/prices/{symbol}?dbsource=clickhouse ✅
-
-----------------------------------------------------------------------------------------------------------
-
-To fetch combined data from all the tables using symbol from postgre:
-http://localhost:8080/combined/{symbol} ✅
-
-To fetch combined data from all the tables using symbol from clickhouse:
-http://localhost:8080/combined/{symbol}?dbsource=clickhouse  ✅
-
-----------------------------------------------------------------------------------------------------------
