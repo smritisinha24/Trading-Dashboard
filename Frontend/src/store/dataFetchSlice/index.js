@@ -3,14 +3,15 @@ import axios from "axios";
 
 const initialState = {
     isLoading: false,
-    dataList: []
+    dataList: [],
+    performanceMetrics: {}
 }
 
 export const fetchDataFromPostgreSQL = createAsyncThunk('/data/fetchDataFromPostgreSQL',
      
     async (_, { rejectWithValue }) => {
       try {
-        const result = await axios.get('http://localhost:8080/stocks');
+        const result = await axios.get('https://trading-dashboard-backend.onrender.com/stocks?dbsource=postgres');
         return result?.data
       } catch (error) {
         if (error.response && error.response.data) {
@@ -27,7 +28,7 @@ export const fetchDataFromClickHouse = createAsyncThunk('/data/fetchDataFromClic
          
     async (_, { rejectWithValue }) => {
         try {
-            const result = await axios.get('http://localhost:8080/stocks?dbsource=clickhouse');
+            const result = await axios.get('https://trading-dashboard-backend.onrender.com/stocks?dbsource=clickhouse');
             return result?.data
         } catch (error) {
             if (error.response && error.response.data) {
@@ -51,6 +52,7 @@ const dataFetchSlice = createSlice({
         .addCase(fetchDataFromPostgreSQL.fulfilled, (state, action) => {
             state.isLoading = false
             state.dataList = action.payload.data
+            state.performanceMetrics = action.payload.performanceMetrics
         })
         .addCase(fetchDataFromPostgreSQL.rejected, (state) => {
             state.isLoading = false
@@ -62,6 +64,7 @@ const dataFetchSlice = createSlice({
         .addCase(fetchDataFromClickHouse.fulfilled, (state, action) => {
             state.isLoading = false
             state.dataList = action.payload.data
+            state.performanceMetrics = action.payload.performanceMetrics
         })
         .addCase(fetchDataFromClickHouse.rejected, (state) => {
             state.isLoading = false
