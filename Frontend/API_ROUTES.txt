@@ -1,4 +1,0 @@
-https://trading-dashboard-backend.onrender.com/aggregate?dbsource=clickhouse&startDate=2024-01-10&endDate=2024-11-10
-
-https://trading-dashboard-backend.onrender.com/aggregate?dbsource=postgres&startDate=2024-01-10&endDate=2024-11-10
-
