@@ -1,10 +1,3 @@
-TODO: ⭕
-1. Backend Integration Remaining work.
-        (I) All Data Fetching (From Postgres & From ClickHouse)
-        (II) Showing Graph of particular row
-        (III) Fetching Search Result & Display
-
-
 Updated API ENDPOINTS
 ----------------------------
 For all stocks - 

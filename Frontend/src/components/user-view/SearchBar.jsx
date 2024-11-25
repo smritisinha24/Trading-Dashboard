@@ -2,14 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 
-<<<<<<< HEAD
 import dayjs from 'dayjs';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 
-=======
->>>>>>> 10340d478594e981ec67a6e312b6616ec999f337
 import { 
     Card,
     CardContent,
@@ -41,7 +38,6 @@ import {
 } from "../ui/dropdown-menu"
 
 import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog';
-<<<<<<< HEAD
 import { MagnifyingGlass } from 'react-loader-spinner'
 
 import { ArrowUpDownIcon } from 'lucide-react';
@@ -53,14 +49,16 @@ import {
     searchStockDataPostgreSql, 
     searchTradeInfoPostgreSql, 
     searchInstrumentPostgreSql, 
-    searchCombinedPostgreSql 
+    searchCombinedPostgreSql,
+    searchIndustryPostgreSql
 } from '../../store/searchSlice'
 
 import { 
     searchStockDataClickHouse, 
     searchTradeInfoClickHouse, 
     searchInstrumentClickHouse, 
-    searchCombinedClickHouse 
+    searchCombinedClickHouse,
+    searchIndustryClickHouse
 } from '../../store/searchSlice'
 
 import { resetSearchResults } from '../../store/searchSlice'
@@ -72,6 +70,7 @@ import SpecificStock from '../search-response/SpecificStock'
 import SpecificTrade from '../search-response/SpecificTrade'
 import SpecificInstrument from '../search-response/SpecificInstrument'
 import CombinedData from '../search-response/CombinedData'
+import IndustrySearchData from '../search-response/IndustrySearchData';
 
 
 
@@ -107,15 +106,19 @@ const SearchBar = React.forwardRef((props, ref) =>  {
 
     try {
       if (database === 'PostgreSQL') {
+        dispatch(resetSearchResults());
         await dispatch(searchStockDataPostgreSql(currSymbol)).unwrap();
         await dispatch(searchTradeInfoPostgreSql(currSymbol)).unwrap();
         await dispatch(searchInstrumentPostgreSql(currSymbol)).unwrap();
         await dispatch(searchCombinedPostgreSql({getStartDate, getEndDate})).unwrap();
+        await dispatch(searchIndustryPostgreSql({getStartDate, getEndDate})).unwrap();
       } else {
+        dispatch(resetSearchResults());
         await dispatch(searchStockDataClickHouse(currSymbol)).unwrap();
         await dispatch(searchTradeInfoClickHouse(currSymbol)).unwrap();
         await dispatch(searchInstrumentClickHouse(currSymbol)).unwrap();
         await dispatch(searchCombinedClickHouse({getStartDate, getEndDate})).unwrap();
+        await dispatch(searchIndustryClickHouse({getStartDate, getEndDate})).unwrap();
       }
     } catch (error) {
         toast({
@@ -131,94 +134,37 @@ const SearchBar = React.forwardRef((props, ref) =>  {
   const [symbol, setSymbol] = useState("")
   const [startDate, setStartDate] = useState(dayjs(Date.now()).format('YYYY-MM-DD'));
   const [endDate, setEndDate] = useState(dayjs(Date.now()).format('YYYY-MM-DD'));
-=======
-
-import { ArrowUpDownIcon } from 'lucide-react';
-import { Separator } from '../ui/separator'
-import { useDispatch, useSelector } from 'react-redux'
-
-import { 
-    searchStockDataPostgreSql, 
-    searchTradeInfoPostgreSql, 
-    searchInstrumentPostgreSql, 
-    searchCombinedPostgreSql 
-} from '../../store/searchSlice'
-
-import { 
-    searchStockDataClickHouse, 
-    searchTradeInfoClickHouse, 
-    searchInstrumentClickHouse, 
-    searchCombinedClickHouse 
-} from '../../store/searchSlice'
-
-import { resetSearchResults } from '../../store/searchSlice'
-
-import { useToast } from "../ui/use-toast"
-import { ToastAction } from "../ui/toast"
-
-import SpecificStock from '../search-response/SpecificStock'
-import SpecificTrade from '../search-response/SpecificTrade'
-import SpecificInstrument from '../search-response/SpecificInstrument'
-import CombinedData from '../search-response/CombinedData'
-
-
-const SearchBar = React.forwardRef((props, ref) =>  {
-  const dispatch = useDispatch()
-  const { toast } = useToast();
-  const handleSearch = async (currSymbol) => {
-    if(currSymbol === "") {
-      toast({
-          variant: "destructive",
-          title: "Uh Oh! Something Went Wrong.",
-          description: "Symbol Cannot be Empty :(",
-          action: <ToastAction altText="Try again">Try again</ToastAction>
-      })
-
-      return;
-    }
-
-    try {
-      if (database === 'PostgreSQL') {
-        await dispatch(searchStockDataPostgreSql(currSymbol)).unwrap();
-        await dispatch(searchTradeInfoPostgreSql(currSymbol)).unwrap();
-        await dispatch(searchInstrumentPostgreSql(currSymbol)).unwrap();
-        await dispatch(searchCombinedPostgreSql(currSymbol)).unwrap();
-      } else {
-        await dispatch(searchStockDataClickHouse(currSymbol)).unwrap();
-        await dispatch(searchTradeInfoClickHouse(currSymbol)).unwrap();
-        await dispatch(searchInstrumentClickHouse(currSymbol)).unwrap();
-        await dispatch(searchCombinedClickHouse(currSymbol)).unwrap();
-      }
-    } catch (error) {
-        toast({
-        variant: "destructive",
-        title: "Uh Oh! Something Went Wrong.",
-        description: "Error Fetching Data From PostgreSQL :(",
-        action: <ToastAction altText="Try again">Try again</ToastAction>
-      })
-    }
-  }
-
-  const [database, setDatabase] = useState('PostgreSQL');
-  const [symbol, setSymbol] = useState("")
->>>>>>> 10340d478594e981ec67a6e312b6616ec999f337
+  const [isSearched, setIsSearched] = useState(false)
+  const [prevPostgreCombinedTime, setPrevPostgreCombinedTime] = useState(null);
+  const [prevClickHouseCombinedTime, setPrevClickHouseCombinedTime] = useState(null);
+  const [prevPostgreIndustryTime, setPrevPostgreIndustryTime] = useState(null);
+  const [prevClickHouseIndustryTime, setPrevClickHouseIndustryTime] = useState(null);
 
 
   const stockSearchResponse = useSelector((state) => state.search.searchStockData)
   const tradeSearchResponse = useSelector((state) => state.search.searchTradeInfo)
   const instrumentSearchResponse = useSelector((state) => state.search.searchInstrument)
   const combinedSearchResponse = useSelector((state) => state.search.searchCombined)
+  const industrySearchResponse = useSelector((state) => state.search.searchIndustry)
 
   
   const stockSearchPerformance = useSelector((state) => state.search.searchStockPerformance)
   const tradeSearchPerformance = useSelector((state) => state.search.searchTradePerformance)
   const instrumentSearchPerformance = useSelector((state) => state.search.searchInstrumentPerformance)
   const combinedSearchPerformance = useSelector((state) => state.search.searchCombinedPerformance)
-<<<<<<< HEAD
+  const industrySearchPerformance = useSelector((state) => state.search.searchIndustryPerformance)
 
   const loading = useSelector((state) => state.search.isLoading)
-=======
->>>>>>> 10340d478594e981ec67a6e312b6616ec999f337
+
+  useEffect(() => {
+    if (database === 'ClickHouse' && combinedSearchPerformance && combinedSearchPerformance.readSpeed && industrySearchPerformance && industrySearchPerformance.readSpeed) {
+      setPrevClickHouseCombinedTime(combinedSearchPerformance.readSpeed);
+      setPrevClickHouseIndustryTime(industrySearchPerformance.readSpeed);
+    } else if (database === 'PostgreSQL' && combinedSearchPerformance && combinedSearchPerformance.readSpeed && industrySearchPerformance && industrySearchPerformance.readSpeed) {
+      setPrevPostgreCombinedTime(combinedSearchPerformance.readSpeed);
+      setPrevPostgreIndustryTime(industrySearchPerformance.readSpeed);
+    }
+  }, [combinedSearchPerformance,industrySearchPerformance,database]);
   
 
   console.log(stockSearchResponse, "Stock Search Response");
@@ -229,17 +175,15 @@ const SearchBar = React.forwardRef((props, ref) =>  {
   console.log(instrumentSearchPerformance, "Instrument Search Performance");
   console.log(combinedSearchResponse, "Combined Search Response");
   console.log(combinedSearchPerformance, "Combined Search Performance");
+  console.log(industrySearchResponse, "Industry Search Response");
+  console.log(industrySearchPerformance, "Industry Search Performance");
   
-<<<<<<< HEAD
   console.log(startDate, "Start Date")
   console.log(endDate, "End Date")
 
   useEffect(() => {
     dispatch(resetSearchResults());
   },[])
-=======
-  
->>>>>>> 10340d478594e981ec67a6e312b6616ec999f337
 
   return (
     <div ref={ref} className='md:px-6 px-4 py-8 bg-gray-900 w-full'>
@@ -285,7 +229,7 @@ const SearchBar = React.forwardRef((props, ref) =>  {
                 </LocalizationProvider>
               </div>
         </div>
-        <div className='flex justify-center mb-8'>
+        <div className='flex justify-center mb-3'>
            <div className='w-full flex items-center mt-2'>
               <Input
                 name='symbol'
@@ -297,16 +241,16 @@ const SearchBar = React.forwardRef((props, ref) =>  {
 
               <Button 
                 className='bg-green-600 hover:bg-green-800 text-white h-full rounded-r-2xl'
-<<<<<<< HEAD
-                onClick={() => handleSearch(symbol,startDate,endDate)}>
-=======
-                onClick={() => handleSearch(symbol)}>
->>>>>>> 10340d478594e981ec67a6e312b6616ec999f337
+                onClick={() => {
+                   handleSearch(symbol,startDate,endDate)
+                   setIsSearched(true)
+                  }    
+                }
+              >
                 Search
               </Button>
            </div>
         </div>
-<<<<<<< HEAD
         {
           loading 
           ? 
@@ -327,15 +271,28 @@ const SearchBar = React.forwardRef((props, ref) =>  {
         }
         { 
           stockSearchResponse && stockSearchPerformance && tradeSearchResponse && tradeSearchResponse.length > 0 && tradeSearchPerformance && instrumentSearchResponse && instrumentSearchPerformance && combinedSearchResponse && combinedSearchPerformance 
-=======
-        { 
-          stockSearchResponse && stockSearchPerformance && tradeSearchResponse && tradeSearchResponse.length > 0 && tradeSearchPerformance && instrumentSearchResponse && instrumentSearchPerformance && combinedSearchResponse && combinedSearchResponse.length > 0 && combinedSearchPerformance 
->>>>>>> 10340d478594e981ec67a6e312b6616ec999f337
           ? 
             <div>
                 <div className="mt-4 flex justify-center items-center gap-4">
                     <div className='outline outline-gray-500 py-1 px-3 rounded-full font-semibold bg-gray-700'>You Searched For : {symbol}</div>
                     <div className='outline outline-gray-500 py-1 px-3 rounded-full font-semibold bg-gray-700'>Current Database : {database}</div> 
+                </div>
+
+                <div className='mt-4 flex justify-center items-center gap-3'>
+                  <div className="outline outline-gray-600 inline-block py-2 px-3 rounded-xl font-semibold">
+                    {
+                      database === 'ClickHouse'
+                        ? `Previous PostgreSQL Combined Search Read Speed: ${prevPostgreCombinedTime}`
+                        : `Previous ClickHouse Combined Search Read Speed: ${prevClickHouseCombinedTime}`
+                    }
+                  </div>
+                  <div className="outline outline-gray-600 inline-block py-2 px-3 rounded-xl font-semibold">
+                    {
+                      database === 'ClickHouse'
+                        ? `Previous PostgreSQL Industry Search Read Speed: ${prevPostgreIndustryTime}`
+                        : `Previous ClickHouse Industry Search Read Speed: ${prevClickHouseIndustryTime}`
+                    }
+                  </div>
                 </div>
 
                 <div className='overflow-x-auto mt-4'>
@@ -394,13 +351,8 @@ const SearchBar = React.forwardRef((props, ref) =>  {
                         </TableRow>
                         <TableRow>
                             <TableCell className='text-center bg-gray-800 text-white'>Combined Data Search</TableCell>
-<<<<<<< HEAD
                             <TableCell className='text-center bg-gray-600 text-white'>{combinedSearchPerformance?.readSpeed}</TableCell>
                             <TableCell className='text-center bg-gray-800 text-white'>{combinedSearchPerformance?.throughput}</TableCell>
-=======
-                            <TableCell className='text-center bg-gray-600 text-white'>{combinedSearchPerformance.readSpeed}</TableCell>
-                            <TableCell className='text-center bg-gray-800 text-white'>{combinedSearchPerformance.throughput}</TableCell>
->>>>>>> 10340d478594e981ec67a6e312b6616ec999f337
                             <TableCell className='text-center bg-gray-600 text-white'>
                                   <Dialog>
                                       <DialogTrigger asChild>
@@ -408,6 +360,21 @@ const SearchBar = React.forwardRef((props, ref) =>  {
                                       </DialogTrigger>
                                       
                                       <CombinedData combinedData={combinedSearchResponse} />
+
+                                  </Dialog>
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell className='text-center bg-gray-800 text-white'>Industry Aggregate Search</TableCell>
+                            <TableCell className='text-center bg-gray-600 text-white'>{industrySearchPerformance?.readSpeed}</TableCell>
+                            <TableCell className='text-center bg-gray-800 text-white'>{industrySearchPerformance?.throughput}</TableCell>
+                            <TableCell className='text-center bg-gray-600 text-white'>
+                                  <Dialog>
+                                      <DialogTrigger asChild>
+                                          <Button variant="outline" className='rounded-full bg-black hover:bg-gray-800 text-white'>View Industry Aggregate Response</Button>
+                                      </DialogTrigger>
+                                      
+                                      <IndustrySearchData industryAggregateData={industrySearchResponse} />
 
                                   </Dialog>
                             </TableCell>
@@ -422,6 +389,7 @@ const SearchBar = React.forwardRef((props, ref) =>  {
                       onClick={() => {
                         setSymbol("");
                         dispatch(resetSearchResults());
+                        setIsSearched(false);
                       }}
                     >
                         Clear Search Results
@@ -429,17 +397,15 @@ const SearchBar = React.forwardRef((props, ref) =>  {
                 </div>
             </div>
           :
-            <div className='flex justify-center items-center'>
-<<<<<<< HEAD
-                <p className='text-2xl font-bold text-red-600'>
-                  {
-                    loading ? "Loading Data ..." : "No Data Found"
-                  }
-                </p>
-=======
-                <p className='text-2xl font-bold text-red-600'>No Results To Display</p>
->>>>>>> 10340d478594e981ec67a6e312b6616ec999f337
-            </div>
+          <div className="flex justify-center items-center">
+            <p
+              className={`text-2xl font-bold ${
+                isSearched && loading === false && !stockSearchResponse ? "text-red-600" : "text-gray-400"
+              }`}
+            >
+              {loading ? "Loading Data ..." : isSearched && !stockSearchResponse ? "No Data Found" : ""}
+            </p>
+        </div>
         }
     </div>
   )

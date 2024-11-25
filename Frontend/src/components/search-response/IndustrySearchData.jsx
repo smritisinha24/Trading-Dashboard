@@ -13,14 +13,13 @@ import {
 import { Label } from '../ui/label'
 import { Separator } from '../ui/separator'
 
-
-function CombinedData({ combinedData }) {
-  const showData = combinedData && combinedData.length > 102 ? combinedData.slice(0, 100) : combinedData;
+function IndustrySearchData({industryAggregateData}) {
+  const showData = industryAggregateData && industryAggregateData.length > 102 ? industryAggregateData.slice(0, 100) : industryAggregateData;
 
   return (
     <DialogContent className="sm:max-w-[50vw] max-h-[100vh] bg-gray-900 text-white overflow-auto">
       <DialogHeader>
-        <DialogTitle>Combined Data Details</DialogTitle>
+        <DialogTitle>Industry Aggregate Details</DialogTitle>
       </DialogHeader>
 
       <Separator />
@@ -28,30 +27,30 @@ function CombinedData({ combinedData }) {
       {showData && showData.length > 0 ? (
         <div>
           {showData.map((data) => (
-            <div className="grid gap-2" key={data.instrumentId}>
+            <div className="grid gap-2" key={data.industry}>
               <div className="flex mt-2 items-center justify-between">
-                <p className="font-medium">Instrument ID</p>
-                <Label>{data.instrumentId}</Label>
+                <p className="font-medium">Industry</p>
+                <Label>{data.industry}</Label>
               </div>
 
               <div className="flex mt-2 items-center justify-between">
                 <p className="font-medium">Trade Date</p>
-                <Label>{data.tradeDate}</Label>
+                <Label>{data.tradeMonth}</Label>
               </div>
 
               <div className="flex mt-2 items-center justify-between">
-                <p className="font-medium">Average Price</p>
-                <Label>{data.avgPrice}</Label>
+                <p className="font-medium">Average Traded Value</p>
+                <Label>{data.avgTradedValue}</Label>
               </div>
 
               <div className="flex mt-2 items-center justify-between">
-                <p className="font-medium">Total Volume</p>
-                <Label>{data.totalVolume}</Label>
+                <p className="font-medium">Total Traded Volume</p>
+                <Label>{data.totalTradedVolume}</Label>
               </div>
 
               <div className="flex mt-2 items-center justify-between">
-                <p className="font-medium">Max Price</p>
-                <Label>{data.maxPrice}</Label>
+                <p className="font-medium">Max Traded Value</p>
+                <Label>{data.maxTradedValue}</Label>
               </div>
 
               <Separator className="bg-yellow-50 mt-2" />
@@ -70,7 +69,7 @@ function CombinedData({ combinedData }) {
         </DialogClose>
       </DialogFooter>
     </DialogContent>
-  );
+  )
 }
 
-export default CombinedData;
+export default IndustrySearchData
